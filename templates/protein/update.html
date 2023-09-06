@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Edit "{{ protein['name'] }}"{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="id">ID</label>
+    <input name="id" id="id" value="{{ request.form['id'] or protein['id'] }}">
+    <label for="img_url">Image URL</label>
+    <input name="img_url" id="img_url" value="{{ request.form['img_url'] or protein['img_url'] }}">
+    <label for="info">Info</label>
+    <textarea name="info" id="info">{{ request.form['info'] or protein['info'] }}</textarea>
+    <input type="submit" value="Save">
+  </form>
+  <hr>
+  <form action="{{ url_for('protein.delete', name=protein['name']) }}" method="post">
+    <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+  </form>
+{% endblock %}

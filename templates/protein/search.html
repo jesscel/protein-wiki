@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Search Proteins
+{% endblock %}
+
+
+{% block content %}
+
+  <form action="{{ url_for('protein.search') }}" method="post">
+    <label for="id">Type in the name or partial name of the protein(s) you are looking for</label>
+    <input name="name" id="name" placeholder="Enter the protein name" value="{{ name }}" required>
+    <input type="submit" value="Search">
+  </form>
+
+  {% for protein in proteins %}
+  <article class="post">
+    <header>
+      <div>
+        <h1>{{ protein['name'] }}</h1>
+        <div class="about">{{ protein['name'] }} - {{ protein['info'] }}</div>
+      </div>
+    </header>
+    <img src="static/{{ protein['name'] }}.png" alt="{{ protein['name'] }}">
+  </article>
+  {% if not loop.last %}
+    <hr>
+  {% endif %}
+{% endfor %}
+
+{% endblock %}
