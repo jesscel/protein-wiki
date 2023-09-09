@@ -19,7 +19,7 @@ def index():
     """Show all the proteins, most recent first."""
     db = get_db()
     proteins = db.execute(
-        "SELECT id, name, info FROM protein"
+        "SELECT name, info FROM protein"
     ).fetchall()
     return render_template("protein/viewall.html", proteins=proteins)
 
@@ -39,7 +39,7 @@ def get_protein(name):
     protein = (
         get_db()
         .execute(
-            "SELECT name, id, info, img_url FROM protein"
+            "SELECT name, info, img_url FROM protein"
             " WHERE name = ?",
             (name,),
         )
@@ -58,7 +58,6 @@ def create():
     """Create a new protein for the current user."""
     if request.method == "POST":
         name = request.form["name"]
-        id = request.form["id"]
         info = request.form["info"]
         img_url = request.form["img_url"]
         error = None
@@ -71,8 +70,8 @@ def create():
         else:
             db = get_db()
             db.execute(
-                "INSERT INTO protein (name, id, info, img_url) VALUES (?, ?, ?, ?)",
-                (name, id, info, img_url),
+                "INSERT INTO protein (name, info, img_url) VALUES (?, ?, ?, ?)",
+                (name, info, img_url),
             )
             db.commit()
             return redirect(url_for("protein.index"))
@@ -87,7 +86,6 @@ def update(name):
     protein = get_protein(name)
 
     if request.method == "POST":
-        id = request.form["id"]
         info = request.form["info"]
         img_url = request.form["img_url"]
         error = None
@@ -100,7 +98,7 @@ def update(name):
         else:
             db = get_db()
             db.execute(
-                "UPDATE protein SET id = ?, info = ?, img_url = ? WHERE name = ?", (id, info, img_url, name)
+                "UPDATE protein SET info = ?, img_url = ? WHERE name = ?", (info, img_url, name)
             )
             db.commit()
             return redirect(url_for("protein.index"))
@@ -129,7 +127,7 @@ def search():
         # search by protein name
         db = get_db()
         proteins = db.execute(
-            "SELECT name, id, info, img_url FROM protein WHERE name LIKE ?",
+            "SELECT name, info, img_url FROM protein WHERE name LIKE ?",
             ('%' + name + '%',)
         ).fetchall()
         return render_template("protein/index.html", proteins=proteins, name=name)

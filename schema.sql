@@ -22,15 +22,17 @@ CREATE TABLE post (
 
 CREATE TABLE protein (
   name TEXT NOT NULL PRIMARY KEY,
-  id TEXT NOT NULL,
+  -- id TEXT NOT NULL,
   info TEXT NOT NULL,
   img_url TEXT NOT NULL
 );
  
-CREATE INDEX `id`
+CREATE INDEX `name`
   ON `protein` (`name`);
 
 INSERT INTO "protein" VALUES
-('A1CF','Q9NQ94','APOBEC1 complementation factor','465785'),
-('ABRAXAS1','Q6UWZ7','BRCA1-A complex subunit Abraxas 1','123456'),
-('ABRAXAS2','Q15018','BRISC complex subunit Abraxas 2','234567');
+('MSANTD1','This is protein MSANTD1.','/Users/liuenci/Desktop/aws/protein_wiki_data/tiling_plots_jpg/MSANTD1.jpg'),
+('ZNF575','This is protein ZNF575.','/Users/liuenci/Desktop/aws/protein_wiki_data/tiling_plots_jpg/ZNF575.jpg'),
+('SPOUT1','This is protein SPOUT1.','/Users/liuenci/Desktop/aws/protein_wiki_data/tiling_plots_jpg/SPOUT1.jpg'),
+('MESP1','This is protein MESP1.','/Users/liuenci/Desktop/aws/protein_wiki_data/tiling_plots_jpg/MESP1.jpg'),
+('BRCA1','This is protein BRCA1.','/Users/liuenci/Desktop/aws/protein_wiki_data/tiling_plots_jpg/BRCA1.jpg');
