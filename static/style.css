@@ -138,3 +138,17 @@ img {
   margin: 0 auto;
   background: white;
 }
+
+.large {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+}
+
+.page-title {
+  font-family: serif;
+  font-size: large;
+  font-weight: bold;
+  color: #377ba8;
+  margin: 1rem 0;
+}

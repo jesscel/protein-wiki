@@ -14,14 +14,14 @@ import sqlite3
 bp = Blueprint("protein", __name__)
 
 
-@bp.route("/protein")
+@bp.route("/viewall")
 def index():
     """Show all the proteins, most recent first."""
     db = get_db()
     proteins = db.execute(
         "SELECT id, name, info FROM protein"
     ).fetchall()
-    return render_template("protein/index.html", proteins=proteins)
+    return render_template("protein/viewall.html", proteins=proteins)
 
 
 def get_protein(name):
@@ -52,8 +52,8 @@ def get_protein(name):
     return protein
 
 
-@bp.route("/protein/create", methods=("GET", "POST"))
-@login_required
+@bp.route("/create", methods=("GET", "POST"))
+# @login_required
 def create():
     """Create a new protein for the current user."""
     if request.method == "POST":
@@ -80,8 +80,8 @@ def create():
     return render_template("protein/create.html")
 
 
-@bp.route("/protein/<name>/update", methods=("GET", "POST"))
-@login_required
+@bp.route("/<name>/update", methods=("GET", "POST"))
+# @login_required
 def update(name):
     """Update a protein if the current user is the author."""
     protein = get_protein(name)
@@ -108,8 +108,8 @@ def update(name):
     return render_template("protein/update.html", protein=protein)
 
 
-@bp.route("/protein/<name>/delete", methods=("POST",))
-@login_required
+@bp.route("/<name>/delete", methods=("POST",))
+# @login_required
 def delete(name):
     """Delete a protein.
 
@@ -122,7 +122,7 @@ def delete(name):
     db.commit()
     return redirect(url_for("protein.index"))
 
-@bp.route('/protein/search', methods=['GET', 'POST'])
+@bp.route('/', methods=['GET', 'POST'])
 def search():
     if request.method == "POST":
         name = request.form['name']
@@ -132,5 +132,12 @@ def search():
             "SELECT name, id, info, img_url FROM protein WHERE name LIKE ?",
             ('%' + name + '%',)
         ).fetchall()
-        return render_template("protein/search.html", proteins=proteins, name=name)
-    return render_template("protein/search.html", proteins=[])
+        return render_template("protein/index.html", proteins=proteins, name=name)
+    return render_template("protein/index.html", proteins=[])
+
+@bp.route('/<name>')
+def wiki(name):
+    protein = get_protein(name)
+    if protein:
+        return render_template('protein/protein.html', protein=protein)
+    return "Protein not found", 404

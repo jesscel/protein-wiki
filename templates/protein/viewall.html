@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Protein Wiki{% endblock %}</h1>
+  {% if g.user %}
+    <a class="action" href="{{ url_for('protein.create') }}">New</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% for protein in proteins %}
+    <article class="post">
+      <header>
+        <div>
+          <!-- <h1 class="action" href="{{ url_for('protein.wiki', name=protein['name']) }}">{{ protein['name'] }}</h1> -->
+          <a class="page-title" href="{{ url_for('protein.wiki', name=protein['name']) }}">{{ protein['name'] }}</a>
+          <div class="about">{{ protein['name'] }} - {{ protein['info'] }}</div>
+        </div>
+        <a class="action" href="{{ url_for('protein.update', name=protein['name']) }}">Edit</a>
+      </header>
+      <img src="https://github.com/jesscel/protein_wiki/blob/main/static/{{ protein['name'] }}.png?raw=false" alt="{{ protein['name'] }}">
+      <p class="body">Image coming soon... {{ protein['info'] }}</p>
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

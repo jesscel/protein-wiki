@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<article>
+    <h2>{{ protein['name'] }}</h2>
+    <p>{{ protein['info'] }}</p>
+    <img class="large" src="https://github.com/jesscel/protein_wiki/blob/main/static/{{ protein['name'] }}.png?raw=false" alt="{{ protein['name'] }}">
+    <!-- Add any other protein-specific information here -->
+</article>
+{% endblock %}
